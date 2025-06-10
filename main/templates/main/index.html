@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="ss_top_slider_wrapper">
+        <div id="theme-main-banner">
+            <!-- Slide 1 -->
+            <div data-src="{% static 'images/content/slide1.jpg' %}">
+                <div class="camera_caption">
+                    <div class="container ss_slider_wrapper">
+                        <h1 class="wow fadeInUp animated" data-wow-delay="0.1s">iPhone 7 Plus</h1>
+                        <h2 class="wow fadeInUp animated" data-wow-delay="0.2s">20% OFF This Week Only!</h2>
+                        <p class="wow fadeInUp animated" data-wow-delay="0.3s">
+                            Available in Rose Gold, Silver, Gold, White,<br>
+                            Black, Jet Black and Red.
+                        </p>
+                        <a href="#" class="wow fadeInUp animated" data-wow-delay="0.4s">Buy Now!</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div data-src="{% static 'images/content/slide2.jpg' %}">
+                <div class="camera_caption">
+                    <div class="container ss_slider_wrapper">
+                        <h1 class="wow fadeInUp animated" data-wow-delay="0.1s">iPhone 7 Plus</h1>
+                        <h2 class="wow fadeInUp animated" data-wow-delay="0.2s">Free Shipping Worldwide</h2>
+                        <p class="wow fadeInUp animated" data-wow-delay="0.3s">
+                            Fast delivery and 30-day money back guarantee
+                        </p>
+                        <a href="#" class="wow fadeInUp animated" data-wow-delay="0.4s">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div data-src="{% static 'images/content/slide3.jpg' %}">
+                <div class="camera_caption">
+                    <div class="container ss_slider_wrapper">
+                        <h1 class="wow fadeInUp animated" data-wow-delay="0.1s">iPhone 7 Plus</h1>
+                        <h2 class="wow fadeInUp animated" data-wow-delay="0.2s">Premium Accessories Included</h2>
+                        <p class="wow fadeInUp animated" data-wow-delay="0.3s">
+                            Get free AirPods with every purchase this month
+                        </p>
+                        <a href="#" class="wow fadeInUp animated" data-wow-delay="0.4s">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
