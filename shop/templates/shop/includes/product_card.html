@@ -1,0 +1,61 @@
+{% load static %}
+
+<div id="{% if not list_view %}grid{% else %}list{% endif %}" 
+    class="{% if not list_view %}tab-pane fade in active{% else %}tab-pane fade{% endif %}">
+    <div class="row">
+        {% for product in products %}
+        {% if not list_view %}
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
+        {% else %}
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {% endif %}
+            {% if not list_view %}
+            <div class="ss_featured_products_box">
+                <div class="ss_featured_products_box_img">
+            {% else %}
+            <div class="prs_mcc_list_movie_main_wrapper">
+                <div class="ss_featured_products_box_img ss_featured_products_box_img_list">
+            {% endif %}
+                    {% if product.discount %}
+                    <span class="ss_offer">{{ product.discount }}% off</span>
+                    {% endif %} {% if product.images.all %}
+                    <img
+                        src="{{ product.images.first.image.url }}"
+                        alt="{{ product.name }}"
+                        class="img-responsive"
+                    />
+                    {% else %} <img src="{% static "images/content/lp4.jpg" %}"
+                    alt="{{ product.name }}" class="img-responsive"> {% endif %}
+                </div>
+                <div class="{% if not list_view %} ss_feat_prod_cont_heading_wrapper{% else %}ss_featured_products_box_img_list_cont{% endif %}">
+                    <h4><a href="#">{{ product.name }}</a></h4>
+                    <p>{{ product.category.name }}</p>
+                    {% if product.discount %}
+                    <del>${{ product.price }}</del>
+                    <ins>${{ product.sell_price }}</ins>
+                    {% else %}
+                    <ins>${{ product.price }}</ins>
+                    {% endif %}
+                </div>
+                <div class="ss_featured_products_box_footer">
+                    <ul>
+                        <li>
+                            <a href="#"
+                                ><i class="fa fa-random" aria-hidden="true"></i
+                            ></a>
+                        </li>
+                        <li>
+                            <button class="ss_btn">Add To Bag</button>
+                        </li>
+                        <li>
+                            <a href="#"
+                                ><i class="fa fa-heart" aria-hidden="true"></i
+                            ></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

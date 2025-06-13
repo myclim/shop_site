@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load shop_tags %}
+
 
 {% block content %}
 	<!-- CC pc sidebar accordion Start -->
@@ -253,11 +255,16 @@
 				<div class="col-lg-9  col-md-9 col-sm-12 col-xs-12 sidebar2_main_wrapper">
 					<div class="sidebar_widget">
 						<div class="ss_proadd_wrapper ss_proadd_wrapper_inner">
-							<div class="ss_proadd_box">
-								<h2>New Mackbook pro 8GB, 1TB</h2>
-								<p>Starting @ $550 only/-</p>
-								<img src="images/content/Mockup1.png" alt="camera" title="Camera" class="img-responsive">	<a href="#" class="ss_btn">Shop Now!</a>
-							</div>
+                            <div class="ss_proadd_box">
+                                <h2>{{ top_product.name|default:"Premium Product" }}</h2>
+                                <p>Starting ${{ top_product.price }}/</p>
+                                <img src="{% if top_product.images.all %}{{ top_product.images.first.image.url }}{% else %}{% static 'images/content/Mockup1.png' %}{% endif %}" 
+                                    alt="{{ top_product.name }}" 
+                                    title="{{ top_product.name }}" 
+                                    class="img-responsive" 
+                                    loading="lazy">
+                                <a href="#" class="ss_btn">Shop Now!</a>
+                            </div>
 						</div>
 					</div>
 					<div class="sidebar_widget2">
@@ -271,6 +278,7 @@
 								<option>Ram</option>
 								<option>cpu</option>
 							</select>
+							{% comment %}
 							<div class="list-grid">
 								<ul class="list-inline nav nav-pills">
 									<li class="active"><a data-toggle="pill" href="#grid"><i class="fa fa-th-large"></i></a>
@@ -279,65 +287,39 @@
 									</li>
 								</ul>
 							</div>
+							{% endcomment %}
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="tab-content">
+
 								<div id="grid" class="tab-pane fade in active">
 									<div class="row">
+                                        {% for product in products %}
 										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
 											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp1.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
+												<div class="ss_featured_products_box_img">
+                                                    {% if product.discount %}
+													    <span class="ss_offer">{{ product.discount }}% off</span>
+                                                    {% endif %}
+                                                    {% if product.images.all %}
+												    	<img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="img-responsive">
+                                                    {% else %}
+                                                        <img src="{% static "images/content/lp4.jpg" %}" alt="{{ product.name }}" class="img-responsive">
+                                                    {% endif %}
 												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
+                                                <div class="ss_feat_prod_cont_heading_wrapper">
+                                                    <h4><a href="{% url "shop:product" product_slug=product.slug %}">{{ product.name }}</a></h4>
+                                                    <p>{{ product.category.name }}</p>
+                                                    {% if product.discount %}
+                                                        <del>${{ product.price }}</del> <ins>${{ product.sell_price }}</ins>
+                                                    {% else %}
+                                                        <ins>${{ product.price }}</ins>
+                                                    {% endif %}
+                                                </div>
 												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
 													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
 														<li>
 															<button class="ss_btn">Add To Bag</button>
 														</li>
@@ -347,731 +329,36 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp2.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp4.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp5.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp6.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp7.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp7.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp8.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp1.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp2.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp3.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 prs_upcom_slide_first">
-											<div class="ss_featured_products_box">
-												<div class="ss_featured_products_box_img">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp4.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_feat_prod_cont_heading_wrapper">
-													<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-													<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-												</div>
-												<div class="ss_featured_products_box_footer">
-													<fieldset class="rating">
-														<input type="radio" name="rating" value="5" />
-														<label class="full" title="5 stars"></label>
-														<input type="radio" name="rating" value="4 and a half" />
-														<label class="half" title="4.5 stars"></label>
-														<input type="radio" name="rating" value="4" />
-														<label class="full" title="4 stars"></label>
-														<input type="radio" name="rating" value="3 and a half" />
-														<label class="half" title="3.5 stars"></label>
-														<input type="radio" name="rating" value="3" />
-														<label class="full" title="3 stars"></label>
-														<input type="radio" name="rating" value="2 and a half" />
-														<label class="half" title="2.5 stars"></label>
-														<input type="radio" name="rating" value="2" />
-														<label class="full" title="2 stars"></label>
-														<input type="radio" name="rating" value="1 and a half" />
-														<label class="half" title="1.5 stars"></label>
-														<input type="radio" name="rating" value="1" />
-														<label class="full" title="1 star"></label>
-														<input type="radio" name="rating" value="half" />
-														<label class="half" title="0.5 stars"></label>
-													</fieldset>
-													<ul>
-														<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-														</li>
-														<li>
-															<button class="ss_btn">Add To Bag</button>
-														</li>
-														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
+                                        {% endfor %}
 									</div>
 								</div>
+								{% comment %}
 								<div id="list" class="tab-pane fade">
 									<div class="row">
+										{% for product in products %}
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<div class="prs_mcc_list_movie_main_wrapper">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp1.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
+												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">
+													{% if product.discount %}
+														<span class="ss_offer">{{ product.discount}}% off</span>
+													{% endif %}
+													{% if product.images.all %}
+														<img src="{{ product.images.first.image.url}}" alt="{{ product.name }}" class="img-responsive">
+													{% else %}
+														<img src="{% static "images/content/lp1.jpg" %}" alt="{{ product.name}}" class="img-responsive">
+													{% endif %}
 												</div>
 												<div class="ss_featured_products_box_img_list_cont">
 													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
+														<h4><a href="#">{{ product.name }}</a></h4>
+														<p>{{ product.category.name }}</p>
+														{% if product.discount %}
+														<del>${{ product.price }}</del>  <ins>${{ product.sell_price }}</ins>
+														{% else %}
+														<ins>${{ product.price }}</ins>
+														{% endif %}
 													</div>
 													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
 														<ul>
 															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
 															</li>
@@ -1085,386 +372,10 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper prs_mcc_list_movie_main_wrapper2">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp2.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper prs_mcc_list_movie_main_wrapper2">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp3.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper prs_mcc_list_movie_main_wrapper2">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp4.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper prs_mcc_list_movie_main_wrapper2">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp5.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper prs_mcc_list_movie_main_wrapper2">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp6.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper prs_mcc_list_movie_main_wrapper2">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">	<span class="ss_tag">new</span>
-													<span class="ss_offer">20% off</span>
-													<img src="images/content/lp8.jpg" alt="Product" class="img-responsive">
-													<ul>
-														<li>
-															<ul>
-																<li><i class="fa fa-circle corol_1" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_2" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_3" aria-hidden="true"></i>
-																</li>
-																<li><i class="fa fa-circle corol_4" aria-hidden="true"></i>
-																</li>
-															</ul>
-														</li>
-														<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i> Quick View</a>
-														</li>
-													</ul>
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">Brand new phone 32GB, 2GB</a></h4>
-														<p>Electronics</p>	<del>$250.00</del>  <ins>$199.00</ins>
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<fieldset class="rating">
-															<input type="radio" name="rating" value="5" />
-															<label class="full" title="5 stars"></label>
-															<input type="radio" name="rating" value="4 and a half" />
-															<label class="half" title="4.5 stars"></label>
-															<input type="radio" name="rating" value="4" />
-															<label class="full" title="4 stars"></label>
-															<input type="radio" name="rating" value="3 and a half" />
-															<label class="half" title="3.5 stars"></label>
-															<input type="radio" name="rating" value="3" />
-															<label class="full" title="3 stars"></label>
-															<input type="radio" name="rating" value="2 and a half" />
-															<label class="half" title="2.5 stars"></label>
-															<input type="radio" name="rating" value="2" />
-															<label class="full" title="2 stars"></label>
-															<input type="radio" name="rating" value="1 and a half" />
-															<label class="half" title="1.5 stars"></label>
-															<input type="radio" name="rating" value="1" />
-															<label class="full" title="1 star"></label>
-															<input type="radio" name="rating" value="half" />
-															<label class="half" title="0.5 stars"></label>
-														</fieldset>
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
+										{% endfor %}
 									</div>
 								</div>
+								{% endcomment %}
 							</div>
 						</div>
 					</div>
@@ -1472,18 +383,21 @@
 						<!-- blog_pagination_section start -->
 						<div class="pager_wrapper gc_blog_pagination">
 							<ul class="pagination">
-								<li><a href="#">Previous</a>
-								</li>
-								<li><a href="#">1</a>
-								</li>
-								<li><a href="#">2</a>
-								</li>
-								<li><a href="#">3</a>
-								</li>
-								<li class="hidden-xs"><a href="#">4</a>
-								</li>
-								<li><a href="#">Next</a>
-								</li>
+								{% if page_obj.has_previous %}
+									<li><a href="?page={{ page_obj.previous_page_number}}">Previous</a>
+									</li>
+								{% endif %}
+								{% for num in page_obj.paginator.page_range  %}
+									{% if page_obj.number == num %}
+										<li class="hidden-xs active"><a href="?page={{ num }}">{{ num }}</a>
+									{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+										<li><a href="?page={{ num }}">{{ num }}</a></li>
+									{% endif %}
+								{% endfor %}
+								{% if page_obj.has_next %}
+									<li><a href="?page={{ page_obj.next_page_number}}">Next</a>
+									</li>
+								{% endif %}
 							</ul>
 						</div>
 						<!-- blog_pagination_section end -->

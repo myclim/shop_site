@@ -1,20 +1,8 @@
 {% load static %}
 {% load shop_tags %}
 
-
 <!DOCTYPE html>
-<!-- 
-Template Name: big basket
-Version: 1.0.0
-Author: 
-Website: 
-Purchase: 
--->
-<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
 <html lang="en">
-<!--<![endif]-->
 
 <head>
 	<meta charset="utf-8" />
@@ -137,10 +125,31 @@ Purchase:
 						</ul>
 					</div>
 				</li>
-				<li>
-					<div class="ss_login_box">	<a href="#"><span>Login or Register</span> <img src="{% static "images/header/user_icon.png" %}" alt="Login" title="Login" class="img-responsive"></a>
-					</div>
-				</li>
+				{% if user.is_authenticated %}
+					{% if user.is_superuser %}
+					<li class="nav-item">
+						<a href="{% url 'admin:index' %}" class="btn btn-success px-3" role="button">
+							<i class="bi bi-box-arrow-in-right"></i> Админка
+						</a>
+					</li>
+					{% endif %}
+					<li class="nav-item">
+						<a href="{% url 'user:profile' %}" class="btn btn-success px-3" role="button">
+							<i class="bi bi-box-arrow-in-right"></i> Профиль
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="{% url 'user:logout' %}" class="btn btn-danger py-1" role="button">
+							<i class="bi bi-box-arrow-right"></i> Выйти
+						</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a href="{% url 'user:login' %}" class="btn btn-success px-3" role="button">
+							<i class="bi bi-box-arrow-in-right"></i> Войти
+						</a>
+					</li>
+				{% endif %}
 				<li>
 					<div class="ss_cart_value dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -281,7 +290,7 @@ Purchase:
 						<div class="clearfix"></div>
 						<ul class="dl-menu">
 							<li class="parent"><a href="{% url "main:index" %}">Home</a>
-							<li class="parent"><a href="{% url "main:index" %}">Shop</a>
+							<li class="parent"><a href="{% url "shop:catalog" %}">Shop</a>
 							<li class="parent"><a href="{% url "main:contact" %}">Contact</a>
 							<li class="parent visible-xs"><a href="#">Cart &nbsp;<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 								<ul class="lg-submenu">

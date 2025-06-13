@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="{% if avatar %}{{ avatar.url }}{% else %}{% static 'images/temp/giga.jpg' %}{% endif %}" 
+                        alt="{{ user.username }}"
+                        class="profile-avatar img-thumbnail"
+                        width="150"
+                        height="150">
+                    <h4>{{ user.username }}</h4>
+                    <p class="text-muted">{{ user.email }}</p>
+                    <div class="list-group">
+                        <a href="" class="list-group-item list-group-item-action active">Профиль</a>
+                        <a href="" class="list-group-item list-group-item-action">Мои заказы</a>
+                        <a href="" class="list-group-item list-group-item-action">Избранное</a>
+                        <a href="" class="list-group-item list-group-item-action">Адреса доставки</a>
+                        <a href="" class="list-group-item list-group-item-action">Настройки</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Личные данные</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Аватар</label>
+                            <div class="col-sm-9">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="id_image" name="image">
+                                    <label class="custom-file-label" for="id_image">Выберите файл</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Имя пользователя</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" value="{{ user.username }}" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" name="email" value="{{ user.email }}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Имя</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Фамилия</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                            </div>
+                        </div>
+                                                
+                        <div class="form-group row">
+                            <div class="col-sm-9 offset-sm-3">
+                                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <hr>
+                    
+                    <h5 class="mb-3">Смена пароля</h5>
+                    <a href="" class="btn btn-outline-danger">Изменить пароль</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+        var fileName = document.getElementById("avatar").files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
+</script>
+{% endblock %}
