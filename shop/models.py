@@ -87,5 +87,6 @@ class ProductImageModel(models.Model):
         return f'фото - {self.pk}, продукт {self.product.name}'
 
     def clean(self):
-        if self.product.images.count() >= 5:
-            raise ValidationError('Максиму 5 изображений')
+        if self.product.pk:
+            if self.product.images.count() >= 5:
+                raise ValidationError('Максимум 5 изображений')

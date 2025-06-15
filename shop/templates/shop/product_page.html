@@ -6,53 +6,36 @@
 <div class="cc_ps_top_product_main_wrapper">
     <div class="container">
         <div class="row">
+            <!-- Левая колонка с изображениями -->
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="video_img_section_wrapper">
                     <!-- Навигация для десктопов -->
                     <div class="video_nav_img hidden-xs">
                         {% for img in product.images.all %}
                         <div class="col-xs-12 cc_ps_tabs">
-                            <a
-                                href="#image-{{ img.id }}"
-                                class="button secondary url owl_nav"
-                            >
-                                <img
-                                    src="{{ img.image.url }}"
-                                    class="img-responsive"
-                                    alt="{{ product.name }}"
-                                />
+                            <a href="#image-{{ img.id }}" class="button secondary url owl_nav">
+                                <img src="{{ img.image.url }}" class="img-responsive" alt="{{ product.name }}">
                             </a>
                         </div>
                         {% empty %}
                         <div class="col-xs-12 cc_ps_tabs">
                             <a href="#" class="button secondary url owl_nav">
-                                <img
-                                    src="{% static 'images/content/li_img1.jpg' %}"
-                                    class="img-responsive"
-                                    alt="placeholder"
-                                />
+                                <img src="{% static 'images/content/li_img1.jpg' %}" class="img-responsive" alt="placeholder">
                             </a>
                         </div>
                         {% endfor %}
                     </div>
+                    
                     <!-- Основной слайдер -->
                     <div class="cc_ps_top_slider_section">
                         <div class="owl-carousel owl-theme">
                             {% for img in product.images.all %}
                             <div class="item" data-hash="image-{{ img.id }}">
-                                <img
-                                    class="small img-responsive"
-                                    src="{{ img.image.url }}"
-                                    alt="{{ product.name }}"
-                                />
+                                <img class="small img-responsive" src="{{ img.image.url }}" alt="{{ product.name }}">
                             </div>
                             {% empty %}
                             <div class="item" data-hash="image-default">
-                                <img
-                                    class="small img-responsive"
-                                    src="{% static 'images/content/li_img1.jpg' %}"
-                                    alt="placeholder"
-                                />
+                                <img class="small img-responsive" src="{% static 'images/content/li_img1.jpg' %}" alt="placeholder">
                             </div>
                             {% endfor %}
                         </div>
@@ -62,28 +45,14 @@
                             <div class="row">
                                 {% for img in product.images.all %}
                                 <div class="col-xs-3 cc_ps_tabs">
-                                    <a
-                                        href="#image-{{ img.id }}"
-                                        class="button secondary url owl_nav"
-                                    >
-                                        <img
-                                            src="{{ img.image.url }}"
-                                            class="img-responsive"
-                                            alt="{{ product.name }}"
-                                        />
+                                    <a href="#image-{{ img.id }}" class="button secondary url owl_nav">
+                                        <img src="{{ img.image.url }}" class="img-responsive" alt="{{ product.name }}">
                                     </a>
                                 </div>
                                 {% empty %}
                                 <div class="col-xs-3 cc_ps_tabs">
-                                    <a
-                                        href="#image-default"
-                                        class="button secondary url owl_nav"
-                                    >
-                                        <img
-                                            src="{% static 'images/content/li_img1.jpg' %}"
-                                            class="img-responsive"
-                                            alt="placeholder"
-                                        />
+                                    <a href="#image-default" class="button secondary url owl_nav">
+                                        <img src="{% static 'images/content/li_img1.jpg' %}" class="img-responsive" alt="placeholder">
                                     </a>
                                 </div>
                                 {% endfor %}
@@ -92,129 +61,56 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Правая колонка с информацией о товаре -->
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="btc_shop_single_prod_right_section">
                     <div class="btc_shop_sin_pro_icon_wrapper">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                        <p>
-                            10 Reviews
-                            <span><a href="#">Add Your Review</a></span>
-                        </p>
-                        <div
-                            class="ss_featured_products_box_img_list_cont ss_featured_products_box_img_list_cont_single"
-                        >
-                            <h4><a href="#">{{ product.name }}</a></h4>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <p>10 Reviews <span><a href="#">Add Your Review</a></span></p>
+                        </div>
+                        <div class="ss_featured_products_box_img_list_cont ss_featured_products_box_img_list_cont_single">
+                            <h4>{{ product.name }}</h4>
                             <p class="shop_pera">{{ product.category.name }}</p>
                             {% if product.discount %}
-                            <del>${{ product.price }}</del>
-                            <ins>${{ product.sell_price }}</ins>
+                                <del>${{ product.price }}</del>
+                                <ins>${{ product.sell_price }}</ins>
                             {% else %}
-                            <ins>${{ product.price}}</ins>
+                                <ins>${{ product.price }}</ins>
                             {% endif %}
                             <h5>{{ product.short_description }}</h5>
                         </div>
                     </div>
+
+                    <!-- Форма добавления в корзину -->
                     <div class="btc_shop_prod_quanty_bar">
-                        <div class="row">
-                            <div
-                                class="col-lg-4 col-md-4 col-sm-4 col-xs-4 full_width"
-                            >
-                                <div class="cc_ps_quantily_info">
-                                    <div class="select_number">
-                                        <button
-                                            onclick="changeQty(1); return false;"
-                                            class="increase"
-                                        >
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                        <input
-                                            type="text"
-                                            name="quantity"
-                                            value="1"
-                                            size="2"
-                                            id="input-quantity"
-                                            class="form-control"
-                                        />
-                                        <button
-                                            onclick="changeQty(0); return false;"
-                                            class="decrease"
-                                        >
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="hidden" name="product_id" />
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-4 col-sm-4 col-xs-4 full_width"
-                            >
-                                <div class="cc_ps_color_selectobx">
-                                    <select>
-                                        <option>Size List</option>
-                                        <option>32</option>
-                                        <option>33</option>
-                                        <option>34</option>
-                                        <option>35</option></select
-                                    ><i class="fa fa-caret-down"></i>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-4 col-md-4 col-sm-4 col-xs-4 full_width"
-                            >
-                                <div class="cc_ps_color_selectobx">
-                                    <select>
-                                        <option>Color</option>
-                                        <option>Red</option>
-                                        <option>Orange</option>
-                                        <option>Blue</option>
-                                        <option>Green</option></select
-                                    ><i class="fa fa-caret-down"></i>
-                                </div>
-                            </div>
-                            <div
-                                class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                            >
-                                <div class="cc_ps_deliv_main_wrapper">
-                                    <div class="cc_ps_deliv_heading">
-                                        <p>Delivery :</p>
-                                    </div>
-                                    <div class="cc_ps_deliv_wrapper">
-                                        <div class="cc_ps_searchbar_wrapper">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter Delivery Pincode"
-                                            />
-                                            <button>CHECK</button>
+                        <form method="post" action="{% url 'cart:cart_add' product_id=product.id %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 full_width">
+                                    <div class="cc_ps_quantily_info">
+                                        <div class="select_number">
+                                            <button type="button" class="decrease">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                            <input type="number" name="quantity" value="1" min="1" 
+                                                id="input-quantity" class="form-control">
+                                            <button type="button" class="increase">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div
-                                        class="cc_ps_bottom_cont_heading_wrapper"
-                                    >
-                                        <p>Policys :</p>
-                                    </div>
-                                    <div class="cc_ps_bottom_cont_list_wrapper">
-                                        <ul>
-                                            <li>
-                                                - Security policy (edit with
-                                                module Customer reassurance)
-                                            </li>
-                                            <li>
-                                                - Delivery policy (24 Hrs.
-                                                Delivery policy)
-                                            </li>
-                                            <li>
-                                                - Return policy (within 15 days
-                                                return policy)
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <button type="submit" class="ss_btn">Add To Bag</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -223,563 +119,103 @@
 </div>
 <!-- CC ps top product Wrapper End -->
 
-<!-- Previous -->
+<!-- Описание товара и отзывы -->
 <div class="accordion_section">
     <div class="container">
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                 <div class="panel-group" id="accordionFourLeft">
+                    <!-- Блок с описанием -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a
-                                    data-toggle="collapse"
-                                    data-parent="#accordion_oneLeft"
-                                    href="#collapseFiveLeftone"
-                                    aria-expanded="false"
-                                >
+                                <a data-toggle="collapse" data-parent="#accordion_oneLeft" 
+                                   href="#collapseFiveLeftone" aria-expanded="false">
                                     Описание
                                 </a>
                             </h4>
                         </div>
-                        <div
-                            id="collapseFiveLeftone"
-                            class="panel-collapse collapse in"
-                            aria-expanded="false"
-                            role="tablist"
-                        >
+                        <div id="collapseFiveLeftone" class="panel-collapse collapse in" 
+                             aria-expanded="false" role="tablist">
                             <div class="panel-body">
-                                <div class="img-accordion">
-                                    <img
-                                        src="images/content/pro_s1.jpg"
-                                        alt=""
-                                    />
-                                </div>
                                 <div class="text-accordion">
-                                    <p>
-                                        {{ product.description }}
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- end of panel-body -->
-                        </div>
-                    </div>
-
-                    <!-- /.panel-default -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a
-                                    data-toggle="collapse"
-                                    data-parent="#accordion_oneLeft"
-                                    href="#collapseFiveLeftfive"
-                                    aria-expanded="false"
-                                >
-                                    coustmer rivews (03)
-                                </a>
-                            </h4>
-                        </div>
-                        <div
-                            id="collapseFiveLeftfive"
-                            class="panel-collapse collapse in"
-                            aria-expanded="false"
-                            role="tablist"
-                        >
-                            <div class="panel-body">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div
-                                        class="btc_shop_single_prod_right_section shop_product_single_head"
-                                    >
-                                        <h1>add your comment</h1>
-                                        <div
-                                            class="btc_shop_sin_pro_icon_wrapper"
-                                        >
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                    </div>
-                                    <div class="text-accordion shop_pdt_form">
-                                        <div class="row">
-                                            <div
-                                                class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                            >
-                                                <div class="contect2_form1">
-                                                    <input
-                                                        type="text"
-                                                        placeholder=" Your Name"
-                                                    /><i class="fa fa-user"></i>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                            >
-                                                <div class="contect2_form1">
-                                                    <input
-                                                        type="email"
-                                                        placeholder="Your Email"
-                                                    /><i
-                                                        class="fa fa-envelope"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                            >
-                                                <div class="contect2_form4">
-                                                    <textarea
-                                                        rows="4"
-                                                        placeholder=" Your comment"
-                                                    ></textarea
-                                                    ><i
-                                                        class="fa fa-question-circle"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                            >
-                                                <div
-                                                    class="pdt_single_page_btn"
-                                                >
-                                                    <div
-                                                        class="shop_btn_wrapper"
-                                                    >
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#"
-                                                                    >submit</a
-                                                                >
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div
-                                        class="btc_shop_single_prod_right_section shop_product_single_head shop_product_single_head_respon"
-                                    >
-                                        <h1>product rating</h1>
-                                        <h4>4.5 <span>overall rating</span></h4>
-                                    </div>
-                                    <div class="text-accordion shop_pdt_form">
-                                        <div class="progress_section">
-                                            <div class="progress-wrapper">
-                                                <div class="progress-item">
-                                                    <span class="progress-title"
-                                                        >5 star</span
-                                                    >
-                                                    <span
-                                                        class="progress-percent pull-right"
-                                                    >
-                                                        50%</span
-                                                    >
-                                                    <div class="progress">
-                                                        <div
-                                                            class="progress-bar progress-bar-dealy"
-                                                            role="progressbar"
-                                                            aria-valuenow="50"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                        ></div>
-                                                    </div>
-                                                    <!-- /.progress -->
-                                                </div>
-                                                <!-- /.progress-item -->
-                                                <div class="progress-item">
-                                                    <span class="progress-title"
-                                                        >4 star</span
-                                                    >
-                                                    <span
-                                                        class="progress-percent pull-right"
-                                                    >
-                                                        92%</span
-                                                    >
-                                                    <div class="progress">
-                                                        <div
-                                                            class="progress-bar progress-bar-success progress-bar-dealy"
-                                                            role="progressbar"
-                                                            aria-valuenow="92"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                        ></div>
-                                                    </div>
-                                                    <!-- /.progress -->
-                                                </div>
-                                                <!-- /.progress-item -->
-                                                <div class="progress-item">
-                                                    <span class="progress-title"
-                                                        >3 star
-                                                    </span>
-                                                    <span
-                                                        class="progress-percent pull-right"
-                                                    >
-                                                        55%</span
-                                                    >
-                                                    <div class="progress">
-                                                        <div
-                                                            class="progress-bar progress-bar-danger progress-bar-dealy"
-                                                            role="progressbar"
-                                                            aria-valuenow="33"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                        ></div>
-                                                    </div>
-                                                    <!-- /.progress -->
-                                                </div>
-                                                <!-- /.progress-item -->
-                                                <div class="progress-item">
-                                                    <span class="progress-title"
-                                                        >2 star</span
-                                                    >
-                                                    <span
-                                                        class="progress-percent pull-right"
-                                                    >
-                                                        45%</span
-                                                    >
-                                                    <div class="progress">
-                                                        <div
-                                                            class="progress-bar progress-bar-warning"
-                                                            role="progressbar"
-                                                            aria-valuenow="45"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                        ></div>
-                                                    </div>
-                                                    <!-- /.progress -->
-                                                </div>
-                                                <!-- /.progress-item -->
-                                                <div class="progress-item">
-                                                    <span class="progress-title"
-                                                        >1 star</span
-                                                    >
-                                                    <span
-                                                        class="progress-percent pull-right"
-                                                    >
-                                                        25%</span
-                                                    >
-                                                    <div class="progress">
-                                                        <div
-                                                            class="progress-bar progress-bar-info"
-                                                            role="progressbar"
-                                                            aria-valuenow="25"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                        ></div>
-                                                    </div>
-                                                    <!-- /.progress -->
-                                                </div>
-                                            </div>
-                                            <!-- /.progress-wrapper -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="comment_box_blog">
-                                        <div
-                                            class="sp_comment1_wrapper cmnt_wraper_2"
-                                        >
-                                            <div class="sp_comment1_img">
-                                                <img
-                                                    src="images/content/cmnt_3.png"
-                                                    alt="comment_img"
-                                                    class="img-responsive img-circle"
-                                                />
-                                            </div>
-                                            <div class="sp_comment1_cont">
-                                                <h3>Jhon smith</h3>
-                                                <p>
-                                                    <span
-                                                        >june 1, 2018 -
-                                                        <a href="#"
-                                                            >reply</a
-                                                        ></span
-                                                    >
-                                                </p>
-                                                <p>
-                                                    Aenean sollicitudin, lorem
-                                                    quis bibendum auctor, nisi
-                                                    elit consequat ipsum, nec
-                                                    sagittis sem nibh id elit.
-                                                    Duis sed odio sit amet nibh
-                                                    vulputate cursus.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="sp_comment1_wrapper cmnt_wraper_2"
-                                        >
-                                            <div class="sp_comment1_img">
-                                                <img
-                                                    src="images/content/cmnt_2.png"
-                                                    alt="comment_img"
-                                                    class="img-responsive img-circle"
-                                                />
-                                            </div>
-                                            <div class="sp_comment1_cont">
-                                                <h3>sandy Doe</h3>
-                                                <p>
-                                                    <span
-                                                        >june 1, 2018 -
-                                                        <a href="#"
-                                                            >reply</a
-                                                        ></span
-                                                    >
-                                                </p>
-                                                <p>
-                                                    Aenean sollicitudin, lorem
-                                                    quis bibendum auctor, nisi
-                                                    elit consequat ipsum, nec
-                                                    sagittis sem nibh id elit.
-                                                    Duis sed odio sit amet nibh
-                                                    vulputate cursus.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="sp_comment1_wrapper cmnt_wraper_2"
-                                        >
-                                            <div class="sp_comment1_img">
-                                                <img
-                                                    src="images/content/cmt_1.png"
-                                                    alt="comment_img"
-                                                    class="img-responsive img-circle"
-                                                />
-                                            </div>
-                                            <div class="sp_comment1_cont">
-                                                <h3>sent france</h3>
-                                                <p>
-                                                    <span
-                                                        >june 1, 2018 -
-                                                        <a href="#"
-                                                            >reply</a
-                                                        ></span
-                                                    >
-                                                </p>
-                                                <p>
-                                                    Aenean sollicitudin, lorem
-                                                    quis bibendum auctor, nisi
-                                                    elit consequat ipsum, nec
-                                                    sagittis sem nibh id elit.
-                                                    Duis sed odio sit amet nibh
-                                                    vulputate cursus.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end of panel-body -->
-                        </div>
-                    </div>
-                    <!--end of /.panel-group-->
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="ss_feat_cate_wrapper ss_feat_cate_wrapper_ss">
-                    <div class="ss_heading_box">
-                        <div class="ss_heading">
-                            <h3>Top Rated</h3>
-                        </div>
-                    </div>
-                    <div class="ss_toprated_slider">
-                        <div class="owl-carousel owl-theme">
-                            <div class="item">
-                                <div class="ss_toprated_slider_box">
-                                    <ul>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs1.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs2.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs3.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs4.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="ss_toprated_slider_box">
-                                    <ul>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs4.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs3.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs2.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div
-                                                class="ss_toprated_slider_box_img"
-                                            >
-                                                <a href="#">
-                                                    <img
-                                                        src="images/content/trs1.jpg"
-                                                        alt="Product"
-                                                    />
-                                                </a>
-                                            </div>
-                                            <div
-                                                class="ss_toprated_slider_box_text"
-                                            >
-                                                <h4>
-                                                    <a href="#">Mobile Phone</a>
-                                                </h4>
-                                                <ins>$299.00</ins>
-                                                <del>$199.00</del>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    <p>{{ product.description }}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="ss_addver_sidebar">
-                        <a href="#">
-                            <img src="images/content/add1.jpg" alt="Add" />
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+// Функция изменения количества
+function changeQty(isIncrease) {
+    const input = document.getElementById('input-quantity');
+    let value = parseInt(input.value) || 1;
+    
+    if (isIncrease) {
+        value++;
+    } else {
+        value = Math.max(1, value - 1);
+    }
+    
+    input.value = value;
+}
+
+// Инициализация кнопок +/-
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.increase').addEventListener('click', function() {
+        changeQty(true);
+    });
+    
+    document.querySelector('.decrease').addEventListener('click', function() {
+        changeQty(false);
+    });
+});
+
+// Инициализация слайдера
+$(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        nav: true,
+        dots: false,
+        URLhashListener: true,
+        startPosition: 'URLHash'
+    });
+});
+</script>
+
+<style>
+/* Стили для кнопок количества */
+.select_number {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.select_number button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    cursor: pointer;
+}
+
+.select_number input {
+    width: 50px;
+    text-align: center;
+}
+
+/* Адаптивные стили */
+@media (max-width: 767px) {
+    .video_nav_img .cc_ps_tabs {
+        padding: 5px;
+    }
+}
+</style>
 
 {% endblock content %}

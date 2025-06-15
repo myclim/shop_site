@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="checkout-page">
+        <div class="container">
+            <!--Checkout Details-->
+            <div class="checkout-form">
+                <form action='' method='post'>
+                    {% csrf_token %}
+                    <div class="row clearfix">
+                        <!--Column-->
+                        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="btc_shop_single_prod_right_section related_pdt_shop_head checkout_heading">
+                                <h1>Детали заказа </h1>
+                            </div>
+                            <div class="row clearfix">
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Имя<sup>*</sup></div>
+                                    <input type="text"
+                                        class="form-control" 
+                                        id="id_first_name"
+                                        name="first_name" 
+                                        value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}">
+                                </div>
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Фамилия</div>
+                                    <input type="text"
+                                        class="form-control" 
+                                        id="id_last_name"
+                                        name="last_name" 
+                                        value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}">
+                                </div>
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Телефон</div>
+                                    <input type="text"
+                                        class="form-control" 
+                                        id="id_phone"
+                                        name="phone" 
+                                        value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}">
+                                </div>
+
+                                <!--Form Group-->
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="check-box">
+                                        <input type="checkbox" name="shipping-option" id="account-option_1"> &ensp;
+                                        <label for="account-option_1">Самовывоз?</label>
+                                    </div>
+                                </div>
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <div class="field-label">Адресс</div>
+                                    <input type="text" name="field-name" value="" placeholder="Адресс">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Способ оплаты: </label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pay"
+                                            id="id_pay" value="0" checked>
+                                        <label class="form-check-label" for="id_pay">Оплата картой</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pay"
+                                            id="id_pay" value="1">
+                                        <label class="form-check-label" for="id_pay">Наличными при получение</label>
+                                        {% if form.pay.errors %}
+                                            <div class='alert alert-danger alert-dismissible fade show'>{{ form.pay.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Column-->
+                    </div>
+                </form>
+            </div>
+
+            <!--Order Box-->
+            <div class="order-box">
+                <div class="btc_shop_single_prod_right_section related_pdt_shop_head checkout_heading">
+                    <h1>your order </h1>
+                </div>
+                <div class="title-box">
+                    <div class="col">PRODUCT</div>
+                    <div class="col">TOTAL</div>
+                </div>
+                <ul>
+                    <li class="clearfix"><strong>Patient Ninja 1</strong><span>$35.00</span></li>
+                    <li class="clearfix">Sub Total<span>$35.00</span></li>
+                    <li class="clearfix">Shipping<span class="free">Free Shipping</span></li>
+                    <li class="clearfix">TOTAL<span>$35.00</span></li>
+                </ul>
+            </div>
+            <!--End Order Box-->
+
+            <!--Payment Box-->
+            <div class="payment-box">
+                <div class="upper-box">
+
+                    <!--Payment Options-->
+                    <div class="payment-options">
+                        <ul>
+                            <li>
+                                <div class="radio-option">
+                                    <input type="radio" name="payment-group" id="payment-2" checked>
+                                    <label for="payment-2"><strong>Direct Bank Transfer</strong><span class="small-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio-option">
+                                    <input type="radio" name="payment-group" id="payment-1">
+                                    <label for="payment-1"><strong>Check Payments</strong><span class="small-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span></label>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="radio-option">
+                                    <input type="radio" name="payment-group" id="payment-3">
+                                    <label for="payment-3"><strong>Cash on Delivery</strong><span class="small-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span></label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio-option">
+                                    <input type="radio" name="payment-group" id="payment-4">
+                                    <label for="payment-4"><strong>PayPal</strong><span class="image"><img src="images/content/paypal.jpg" alt="" /></span></label>
+                                    <a href="#" class="what-paypall">What is PayPal?</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="lower-box text-right">
+                    <div class="shop_btn_wrapper checkout_btn">
+                        <ul>
+                            <li><a href="#">place order</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--End Payment Box-->
+
+        </div>
+
+    </div>
+
+{% endblock content %}

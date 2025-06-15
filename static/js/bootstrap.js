@@ -244,8 +244,6 @@ if (typeof jQuery === 'undefined') {
     }
   }
 
-  // Мой Кнопки отображение товара
-
 
   // BUTTON PLUGIN DEFINITION
   // ========================

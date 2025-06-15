@@ -3,6 +3,8 @@
 {% load shop_tags %}
 
 
+
+
 {% block content %}
 	<!-- CC pc sidebar accordion Start -->
 	<div class="cc_pc_accordion_main_wrapper">
@@ -13,39 +15,28 @@
 						<div class="cc_pc_accordion">
 							<ul id="accordion2" class="accordion">
 								<li class="default open">
-									<div class="link cc_product_heading">Categories<i class="fa fa-chevron-down"></i>
+									<div class="link cc_product_heading">Категории<i class="fa fa-chevron-down"></i>
 									</div>
 									<ul class="submenu">
 										<li>
 											<div class="content">
 												<div class="box">
-													<p class="cc_pc_color1">
-														<input type="checkbox" id="c31" name="cb">
-														<label for="c31">Mens (55)</label>
-														<p class="cc_pc_color2">
-															<input type="checkbox" id="c32" name="cb">
-															<label for="c32">Womens (245)</label>
-														</p>
-														<p class="cc_pc_color3">
-															<input type="checkbox" id="c33" name="cb">
-															<label for="c33">Lighting (11)</label>
-														</p>
-														<p class="cc_pc_color4">
-															<input type="checkbox" id="c34" name="cb">
-															<label for="c34">Toys (78)</label>
-														</p>
-														<p class="cc_pc_color5">
-															<input type="checkbox" id="c35" name="cb">
-															<label for="c35">Sports (36)</label>
-														</p>
-														<p class="cc_pc_color6">
-															<input type="checkbox" id="c36" name="cb">
-															<label for="c36">Hand Made (23)</label>
-														</p>
-														<p class="cc_pc_color6">
-															<input type="checkbox" id="c37" name="cb">
-															<label for="c37">Electronics (124)</label>
-														</p>
+												<form method="get" action="{% url 'shop:catalog' %}">
+													{% sub_category as categories %}
+													{% for subcategory in categories %}
+													<p class="cc_pc_color2">
+														<input 
+														type="checkbox" 
+														id="subcategory_{{ subcategory.id }}" 
+														name="subcategories" 
+														value="{{ subcategory.id }}"
+														{% if subcategory.id|stringformat:"i" in request.GET.getlist %}checked{% endif %}
+														>
+														<label for="subcategory_{{ subcategory.id }}">{{ subcategory.name }}</label>
+													</p>
+													{% endfor %}
+													<button type="submit" class="btn btn-primary">Применить</button>
+												</form>
 												</div>
 											</div>
 										</li>
@@ -69,187 +60,6 @@
 								</li>
 							</ul>
 						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion4" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Brand<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p>
-														<input type="checkbox" id="c12" name="cb">
-														<label for="c12">Iphone</label>
-														<p>
-															<input type="checkbox" id="c13" name="cb">
-															<label for="c13">Samsung</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c14" name="cb">
-															<label for="c14">Lenovo</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c15" name="cb">
-															<label for="c15">Apple</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c16" name="cb">
-															<label for="c16">Motorola</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c17" name="cb">
-															<label for="c17">Sony</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c18" name="cb">
-															<label for="c18">Jbl</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion5" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Offers<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p>
-														<input type="checkbox" id="c101" name="cb">
-														<label for="c101">Iphone</label>
-														<p>
-															<input type="checkbox" id="c102" name="cb">
-															<label for="c102">Samsung</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c103" name="cb">
-															<label for="c103">Lenovo</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c104" name="cb">
-															<label for="c104">Apple</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c105" name="cb">
-															<label for="c105">Motorola</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c106" name="cb">
-															<label for="c106">Sony</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c107" name="cb">
-															<label for="c107">Jbl</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion6" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Availability<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p>
-														<input type="checkbox" id="c111" name="cb">
-														<label for="c111">Iphone</label>
-														<p>
-															<input type="checkbox" id="c112" name="cb">
-															<label for="c112">Samsung</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c113" name="cb">
-															<label for="c113">Lenovo</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c114" name="cb">
-															<label for="c114">Apple</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c115" name="cb">
-															<label for="c115">Motorola</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c116" name="cb">
-															<label for="c116">Sony</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c117" name="cb">
-															<label for="c117">Jbl</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion cc_pc_color_accordion">
-							<ul id="accordion7" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Colors<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p class="cc_pc_color1">
-														<input type="checkbox" id="c25" name="cb">
-														<label for="c25">White</label>
-														<p class="cc_pc_color2">
-															<input type="checkbox" id="c26" name="cb">
-															<label for="c26">Black</label>
-														</p>
-														<p class="cc_pc_color3">
-															<input type="checkbox" id="c27" name="cb">
-															<label for="c27">Orange</label>
-														</p>
-														<p class="cc_pc_color4">
-															<input type="checkbox" id="c28" name="cb">
-															<label for="c28">Blue</label>
-														</p>
-														<p class="cc_pc_color5">
-															<input type="checkbox" id="c29" name="cb">
-															<label for="c29">Green</label>
-														</p>
-														<p class="cc_pc_color6">
-															<input type="checkbox" id="c30" name="cb">
-															<label for="c30">Yellow (3)</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="ss_addver_sidebar ss_addver_sidebar_inner">
-						<a href="#">
-							<img src="images/content/add1.jpg" alt="Add">
-						</a>
 					</div>
 				</div>
 				<div class="col-lg-9  col-md-9 col-sm-12 col-xs-12 sidebar2_main_wrapper">
@@ -278,16 +88,6 @@
 								<option>Ram</option>
 								<option>cpu</option>
 							</select>
-							{% comment %}
-							<div class="list-grid">
-								<ul class="list-inline nav nav-pills">
-									<li class="active"><a data-toggle="pill" href="#grid"><i class="fa fa-th-large"></i></a>
-									</li>
-									<li><a data-toggle="pill" href="#list"><i class="fa fa-list"></i></a>
-									</li>
-								</ul>
-							</div>
-							{% endcomment %}
 						</div>
 					</div>
 					<div class="row">
@@ -321,7 +121,10 @@
 												<div class="ss_featured_products_box_footer">
 													<ul>
 														<li>
-															<button class="ss_btn">Add To Bag</button>
+															<form method="post" action="{% url 'cart:cart_add' product_id=product.id %}">
+																{% csrf_token %}
+																<button class="ss_btn">Add To Bag</button>
+															</form>
 														</li>
 														<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
 														</li>
@@ -331,51 +134,7 @@
 										</div>
                                         {% endfor %}
 									</div>
-								</div>
-								{% comment %}
-								<div id="list" class="tab-pane fade">
-									<div class="row">
-										{% for product in products %}
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="prs_mcc_list_movie_main_wrapper">
-												<div class="ss_featured_products_box_img ss_featured_products_box_img_list">
-													{% if product.discount %}
-														<span class="ss_offer">{{ product.discount}}% off</span>
-													{% endif %}
-													{% if product.images.all %}
-														<img src="{{ product.images.first.image.url}}" alt="{{ product.name }}" class="img-responsive">
-													{% else %}
-														<img src="{% static "images/content/lp1.jpg" %}" alt="{{ product.name}}" class="img-responsive">
-													{% endif %}
-												</div>
-												<div class="ss_featured_products_box_img_list_cont">
-													<div class="ss_feat_prod_cont_heading_wrapper">
-														<h4><a href="#">{{ product.name }}</a></h4>
-														<p>{{ product.category.name }}</p>
-														{% if product.discount %}
-														<del>${{ product.price }}</del>  <ins>${{ product.sell_price }}</ins>
-														{% else %}
-														<ins>${{ product.price }}</ins>
-														{% endif %}
-													</div>
-													<div class="ss_featured_products_box_footer ss_featured_products_box_footer_list">
-														<ul>
-															<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i></a>
-															</li>
-															<li>
-																<button class="ss_btn">Add To Bag</button>
-															</li>
-															<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										{% endfor %}
-									</div>
-								</div>
-								{% endcomment %}
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -384,287 +143,22 @@
 						<div class="pager_wrapper gc_blog_pagination">
 							<ul class="pagination">
 								{% if page_obj.has_previous %}
-									<li><a href="?page={{ page_obj.previous_page_number}}">Previous</a>
-									</li>
+									<li><a href="?{% url_replace request 'page' page_obj.previous_page_number %}">Previous</a></li>
 								{% endif %}
-								{% for num in page_obj.paginator.page_range  %}
+								
+								{% for num in page_obj.paginator.page_range %}
 									{% if page_obj.number == num %}
-										<li class="hidden-xs active"><a href="?page={{ num }}">{{ num }}</a>
+										<li class="hidden-xs active"><a href="?{% url_replace request 'page' num %}">{{ num }}</a></li>
 									{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-										<li><a href="?page={{ num }}">{{ num }}</a></li>
+										<li><a href="?{% url_replace request 'page' num %}">{{ num }}</a></li>
 									{% endif %}
 								{% endfor %}
+								
 								{% if page_obj.has_next %}
-									<li><a href="?page={{ page_obj.next_page_number}}">Next</a>
-									</li>
+									<li><a href="?{% url_replace request 'page' page_obj.next_page_number %}">Next</a></li>
 								{% endif %}
 							</ul>
 						</div>
-						<!-- blog_pagination_section end -->
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-3 visible-sm visible-xs">
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper2">
-						<div class="cc_pc_accordion">
-							<ul id="accordion8" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Categories<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p class="cc_pc_color1">
-														<input type="checkbox" id="c201" name="cb">
-														<label for="c201">Mens (55)</label>
-														<p class="cc_pc_color2">
-															<input type="checkbox" id="c202" name="cb">
-															<label for="c202">Womens (245)</label>
-														</p>
-														<p class="cc_pc_color3">
-															<input type="checkbox" id="c203" name="cb">
-															<label for="c203">Lighting (11)</label>
-														</p>
-														<p class="cc_pc_color4">
-															<input type="checkbox" id="c204" name="cb">
-															<label for="c204">Toys (78)</label>
-														</p>
-														<p class="cc_pc_color5">
-															<input type="checkbox" id="c205" name="cb">
-															<label for="c205">Sports (36)</label>
-														</p>
-														<p class="cc_pc_color6">
-															<input type="checkbox" id="c206" name="cb">
-															<label for="c206">Hand Made (23)</label>
-														</p>
-														<p class="cc_pc_color6">
-															<input type="checkbox" id="c207" name="cb">
-															<label for="c207">Electronics (124)</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion9" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Price<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu price-range">
-										<li class="range">
-											<div id="range-price2" class="range-box"></div> <span>from:</span>
-											<input type="text" id="price2" class="price-box" readonly/>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion10" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Brand<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p>
-														<input type="checkbox" id="c301" name="cb">
-														<label for="c301">Iphone</label>
-														<p>
-															<input type="checkbox" id="c302" name="cb">
-															<label for="c302">Samsung</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c303" name="cb">
-															<label for="c303">Lenovo</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c304" name="cb">
-															<label for="c304">Apple</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c305" name="cb">
-															<label for="c305">Motorola</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c306" name="cb">
-															<label for="c306">Sony</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c307" name="cb">
-															<label for="c307">Jbl</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion11" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Offers<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p>
-														<input type="checkbox" id="c401" name="cb">
-														<label for="c401">Iphone</label>
-														<p>
-															<input type="checkbox" id="c402" name="cb">
-															<label for="c402">Samsung</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c403" name="cb">
-															<label for="c403">Lenovo</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c404" name="cb">
-															<label for="c404">Apple</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c405" name="cb">
-															<label for="c405">Motorola</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c406" name="cb">
-															<label for="c406">Sony</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c407" name="cb">
-															<label for="c407">Jbl</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion">
-							<ul id="accordion12" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Availability<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p>
-														<input type="checkbox" id="c501" name="cb">
-														<label for="c501">Iphone</label>
-														<p>
-															<input type="checkbox" id="c502" name="cb">
-															<label for="c502">Samsung</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c503" name="cb">
-															<label for="c503">Lenovo</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c504" name="cb">
-															<label for="c504">Apple</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c505" name="cb">
-															<label for="c505">Motorola</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c506" name="cb">
-															<label for="c506">Sony</label>
-														</p>
-														<p>
-															<input type="checkbox" id="c507" name="cb">
-															<label for="c507">Jbl</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="cc_pc_first_accordion_wrapper cc_pc_second_accordion_wrapper">
-						<div class="cc_pc_accordion cc_pc_color_accordion">
-							<ul id="accordion13" class="accordion">
-								<li class="default open">
-									<div class="link cc_product_heading">Colors<i class="fa fa-chevron-down"></i>
-									</div>
-									<ul class="submenu">
-										<li>
-											<div class="content">
-												<div class="box">
-													<p class="cc_pc_color1">
-														<input type="checkbox" id="c601" name="cb">
-														<label for="c601">White</label>
-														<p class="cc_pc_color2">
-															<input type="checkbox" id="c602" name="cb">
-															<label for="c602">Black</label>
-														</p>
-														<p class="cc_pc_color3">
-															<input type="checkbox" id="c603" name="cb">
-															<label for="c603">Orange</label>
-														</p>
-														<p class="cc_pc_color4">
-															<input type="checkbox" id="c604" name="cb">
-															<label for="c604">Blue</label>
-														</p>
-														<p class="cc_pc_color5">
-															<input type="checkbox" id="c605" name="cb">
-															<label for="c605">Green</label>
-														</p>
-														<p class="cc_pc_color6">
-															<input type="checkbox" id="c606" name="cb">
-															<label for="c606">Yellow (3)</label>
-														</p>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="ss_addver_sidebar ss_addver_sidebar_inner">
-						<a href="#">
-							<img src="images/content/add1.jpg" alt="Add">
-						</a>
-					</div>
-					<div class="col-lg-12 col-md-12 visible-sm visible-xs">
-						<!-- blog_pagination_section start -->
-						<div class="pager_wrapper gc_blog_pagination">
-							<ul class="pagination">
-								<li><a href="#">Previous</a>
-								</li>
-								<li><a href="#">1</a>
-								</li>
-								<li><a href="#">2</a>
-								</li>
-								<li class="third_pagger"><a href="#">3</a>
-								</li>
-								<li class="hidden-xs"><a href="#">4</a>
-								</li>
-								<li><a href="#">Next</a>
-								</li>
-							</ul>
-						</div>
-						<!-- blog_pagination_section end -->
 					</div>
 				</div>
 			</div>

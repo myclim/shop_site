@@ -14,7 +14,7 @@ class ProductImageTabular(admin.TabularInline):
 
 @admin.register(CategoryModel)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name',]
+    list_display = ['id', 'name']
     prepopulated_fields = {'slug': ('name',)}
     fields = [
         'name',
@@ -25,7 +25,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(SubCategoryModel)
 class SubCategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category']
+    list_display = ['id', 'name', 'category']
     prepopulated_fields = {'slug': ('name',)}
     fields = [
         'name',

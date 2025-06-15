@@ -12,6 +12,9 @@
 	<meta name="keywords" content="big basket, Ecommerce, Store, Mall, online Shopping" />
 	<meta name="author" content="" />
 	<meta name="MobileOptimized" content="320" />
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 	<!--srart theme style -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
@@ -113,18 +116,6 @@
 					</span>
 					</div>
 				</li>
-				<li>
-					<div class="ss_notification_box">
-						<ul>
-							<li><a href="#"><i class="fa fa-random" aria-hidden="true"></i><span>3</span></a>
-							</li>
-							<li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>0</span></a>
-							</li>
-							<li><a href="#"><i class="fa fa-bell" aria-hidden="true"></i><span>2</span></a>
-							</li>
-						</ul>
-					</div>
-				</li>
 				{% if user.is_authenticated %}
 					{% if user.is_superuser %}
 					<li class="nav-item">
@@ -137,8 +128,9 @@
 						<a href="{% url 'user:profile' %}" class="btn btn-success px-3" role="button">
 							<i class="bi bi-box-arrow-in-right"></i> Профиль
 						</a>
-					</li>
-					<li class="nav-item">
+						<a href="{% url "cart:user_cart" %}" class="btn btn-success px-3" role="button">
+							<i class="bi bi-box-arrow-in-right"></i> Корзина
+						</a>
 						<a href="{% url 'user:logout' %}" class="btn btn-danger py-1" role="button">
 							<i class="bi bi-box-arrow-right"></i> Выйти
 						</a>
@@ -502,7 +494,6 @@
 	<!--main js file start-->
 	<script src={% static "js/jquery_min.js" %}></script>
 	<script src={% static "js/wow.js" %}></script>
-	<script src={% static "js/bootstrap.js" %}></script>
 	<script src={% static "js/owl.carousel.js" %}></script>
 	<script src={% static "js/modernizr.js" %}></script>
 	<script src={% static "js/jquery.magnific-popup.js" %}></script>
@@ -513,6 +504,7 @@
 	<script src={% static "js/jquery.easing.1.3.js" %}></script>
 	<script src={% static "js/jquery.inview.min.js" %}></script>
 	<script src={% static "js/custom.js" %}></script>
+	<script src={% static "js/bootstrap.js" %}></script>
 	<script>
 		$(window).on("load", function() {
 				var wow = new WOW({
