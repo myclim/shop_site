@@ -1,5 +1,7 @@
 {% load static %}
 {% load shop_tags %}
+{% load user_cart %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,57 +46,6 @@
 	<a href="javascript:" id="return-to-top"><i class="fa fa-angle-up"></i></a>
 	<!-- Top Scroll End -->
 	<!-- Header Wrapper Start -->
-	<div class="ss_top_header_wrapper">
-		<div class="ss_top_left_header_wrapper">
-			<ul>
-				<li>
-					<p>Language :<span><img src="{% static "images/header/flag.png" %}" alt="Flag" title="Flag"> English <i class="fa fa-angle-down" aria-hidden="true"></i></span>
-					</p>
-					<div class="ss_opener">	<span><img src="{% static "images/header/flag.png" %}" alt="Flag" title="Flag"> English</span>
-						<span><img src="{% static "images/header/flag.png" %}" alt="Flag" title="Flag"> Hebrew</span>
-						<span><img src="{% static "images/header/flag.png" %}" alt="Flag" title="Flag"> Russian</span>
-						<span><img src="{% static "images/header/flag.png" %}" alt="Flag" title="Flag"> Spanish</span>
-					</div>
-				</li>
-				<li>
-					<p>Currency :<span> $ USD <i class="fa fa-angle-down" aria-hidden="true"></i></span>
-					</p>
-					<div class="ss_opener">	<span>$ USD</span>
-						<span>$ EUR</span>
-						<span>$ BHD</span>
-						<span>$ CNY</span>
-					</div>
-				</li>
-				<li class="ss_header_store_title">	<i>Welcome to our big basket!</i>
-				</li>
-			</ul>
-		</div>
-		<div class="ss_top_right_header_wrapper">
-			<ul>
-				<li><a href="#"><i class="fa fa-phone" aria-hidden="true"></i> +1 800 125 1234</a>
-				</li>
-				<li><a href="#"><i class="fa fa-truck" aria-hidden="true"></i> Track My Order</a>
-				</li>
-				<li><a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i> Help Center</a>
-				</li>
-				<li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i> Download App</a>
-				</li>
-			</ul>
-		</div>
-		<div class="ss_top_left_header_wrapper ss_top_right_resp_header_wrapper">
-			<ul>
-				<li>
-					<p><span> Contact-Us <i class="fa fa-angle-down" aria-hidden="true"></i></span>
-					</p>
-					<div class="ss_opener">	<span><a href="#"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp; +1 800 125 1234</a></span>
-						<span><a href="#"><i class="fa fa-truck" aria-hidden="true"></i>&nbsp;&nbsp; Track My Order</a></span>
-						<span><a href="#"><i class="fa fa-question-circle" aria-hidden="true"></i>&nbsp;&nbsp; Help Center</a></span>
-						<span><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i>&nbsp;&nbsp; Download App</a></span>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
 	<div class="ss_middle_header_wrapper">
 		<div class="ss_logo">
 			<a href="{% url "main:index" %}">
@@ -105,12 +56,7 @@
 			<ul>
 				<li>
 					<div class="ss_search_box">
-						<select>
-							<option value="c1">All Categories</option>
-							<option value="c2">Category 1</option>
-							<option value="c3">Category 2</option>
-							<option value="c4">Category 3</option>
-						</select>	<span>
+
 						<input type="text" placeholder="Search for products">
 						<button><i class="fa fa-search" aria-hidden="true"></i></button>
 					</span>
@@ -142,50 +88,27 @@
 						</a>
 					</li>
 				{% endif %}
+
+				{% user_cart request as carts %}
 				<li>
 					<div class="ss_cart_value dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<p>3</p>
-							<img src="{% static "images/header/cart_icon.png" %}" alt="Cart" title="Cart">	<span>cart: <ins>$ 25.00</ins></span>
+							<p>{{ carts.total_quantity }}</p>
+							<img src="{% static "images/header/cart_icon.png" %}" alt="Cart" title="Cart">	<span>cart: <ins>$ {{ carts.total_price}}</ins></span>
 							<ul class="dropdown-menu">
+								{% for cart in carts %}
 								<li>
 									<div class="ss_cart_inner_main_section">
-										<div class="ss_cart_img_wrapper">
-											<img src="{% static "images/header/cart_img.jpg" %}" alt="cart_img">
-										</div>
 										<div class="ss_cart_img_cont_wrapper">
-											<h3>Product item</h3>
-											<h4>Product category</h4>
-											<span>x</span>
+											<h3>{{ cart.product.name }}</h3>
+											<h4>{{ cart.quantity }} - ${{ cart.product.sell_price }}</h4>
+											<a href="{% url 'cart:cart_remove' cart.id %}" class="remove-item">×</a>
 										</div>
 									</div>
 								</li>
+								{% endfor %}
 								<li>
-									<div class="ss_cart_inner_main_section ss_cart_inner_main_section2">
-										<div class="ss_cart_img_wrapper">
-											<img src="{% static "images/header/cart_img.jpg" %}" alt="cart_img">
-										</div>
-										<div class="ss_cart_img_cont_wrapper">
-											<h3>Product item</h3>
-											<h4>Product category</h4>
-											<span>x</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="ss_cart_inner_main_section ss_cart_inner_main_section2">
-										<div class="ss_cart_img_wrapper">
-											<img src="{% static "images/header/cart_img.jpg" %}" alt="cart_img">
-										</div>
-										<div class="ss_cart_img_cont_wrapper">
-											<h3>Product item</h3>
-											<h4>Product category</h4>
-											<span>x</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<a href="checkout.html" class="ss_check_btn">Checkout</a>
+									<a href="{% url "order:order" %}" class="ss_check_btn">Оформить</a>
 								</li>
 							</ul>
 						</a>

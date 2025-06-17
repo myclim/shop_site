@@ -60,7 +60,7 @@ class OrderItem(models.Model):
         verbose_name = 'Проданный товар'
         verbose_name_plural = 'Проданные товары'
     
-    bjects = OrderQueryset.as_manager()
+    objects = OrderQueryset.as_manager()
 
     def product_price(self):
         return round(self.price * self.quantity, 2)

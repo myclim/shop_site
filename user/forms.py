@@ -16,6 +16,7 @@ class UserRegistrationForm(UserCreationForm):
             'username',
             'first_name',
             'last_name',
+            'phone',
             'email',
             'password1',
             'password2',
@@ -29,6 +30,7 @@ class UpdateForm(UserChangeForm):
         fields = (
             'first_name',
             'last_name',
+            'phone',
             'image',
             'email',
         )

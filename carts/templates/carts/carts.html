@@ -41,7 +41,7 @@
                                         </td>
                                         <td></td>
                                         <td class="cart_page_price">${{ cart.product.sell_price }}</td>
-                                        <td class="cart_page_totl">{{ cart.quantity }}</td>>
+                                        <td class="cart_page_totl">{{ cart.quantity }}</td>
                                             {% comment %}<input value="{{ cart.quantity }}" type="number" />{% endcomment %}
                                         </td>
                                         <td class="cart_page_totl">${{ cart.product_price }}</td>
@@ -72,7 +72,7 @@
                                 </table>
                                 <div class="shop_btn_wrapper shop_btn_wrapper_shipping">
                                     <ul>
-                                        <li><a href="#">Оформить заказ</a>
+                                        <li><a href="{% url "order:order" %}">Оформить заказ</a>
                                         </li>
                                     </ul>
                                 </div>

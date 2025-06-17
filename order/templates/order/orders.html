@@ -1,11 +1,221 @@
 {% extends "base.html" %}
 {% load static %}
+{% load user_cart %}
+
 
 {% block content %}
     <div class="checkout-page">
         <div class="container">
             <!--Checkout Details-->
+            {% include "includes/messages.html" %}
             <div class="checkout-form">
+
+                <form action='{% url "order:order" %}' method='post'>
+                    {% csrf_token %}
+                    <div class="row clearfix">
+                        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="btc_shop_single_prod_right_section related_pdt_shop_head checkout_heading">
+                                <h1>Детали заказа</h1>
+                            </div>
+                            <div class="row clearfix">
+
+                                <!-- Имя -->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Имя<sup>*</sup></div>
+                                    <input type="text"
+                                        class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" 
+                                        id="id_first_name"
+                                        name="first_name" 
+                                        value="{{ form.first_name.value|default:'' }}"
+                                        required>
+                                    {% if form.first_name.errors %}
+                                        <div class="invalid-feedback">{{ form.first_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Фамилия -->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Фамилия</div>
+                                    <input type="text"
+                                        class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" 
+                                        id="id_last_name"
+                                        name="last_name" 
+                                        value="{{ form.last_name.value|default:'' }}">
+                                    {% if form.last_name.errors %}
+                                        <div class="invalid-feedback">{{ form.last_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Телефон -->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Телефон<sup>*</sup></div>
+                                    <input type="text"
+                                        class="form-control {% if form.phone.errors %}is-invalid{% endif %}" 
+                                        id="id_phone"
+                                        name="phone" 
+                                        value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}"
+                                        required>
+                                    {% if form.phone.errors %}
+                                        <div class="invalid-feedback">{{ form.phone.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Доставка -->
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label>Требуется доставка?</label>
+                                    {% for choice in form.requires_delivery %}
+                                    <div class="form-check">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                            {{ choice.choice_label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Адрес -->
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <div class="field-label">Адрес <span id="address-required" style="display:none;"><sup>*</sup></span></div>
+                                    <input type="text" 
+                                        class="form-control {% if form.address.errors %}is-invalid{% endif %}"
+                                        name="address" 
+                                        id="id_address"
+                                        value="{{ form.address.value|default:'' }}"
+                                        placeholder="Адрес">
+                                    {% if form.address.errors %}
+                                        <div class="invalid-feedback">{{ form.address.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Способ оплаты -->
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Способ оплаты: <sup>*</sup></label>
+                                    {% for choice in form.payment_method %}
+                                    <div class="form-check form-check-inline">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                            {{ choice.choice_label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Оформить заказ</button>
+                </form>
+
+                {% comment %}
+                <form action='{% url "order:order" %}' method='post'>
+                    {% csrf_token %}
+                    <div class="row clearfix">
+                        <!--Column-->
+                        <div class="column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="btc_shop_single_prod_right_section related_pdt_shop_head checkout_heading">
+                                <h1>Детали заказа</h1>
+                            </div>
+                            <div class="row clearfix">
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Имя<sup>*</sup></div>
+                                    <input type="text"
+                                        class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" 
+                                        id="id_first_name"
+                                        name="first_name" 
+                                        value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                                        required>
+                                    {% if form.first_name.errors %}
+                                        <div class="invalid-feedback">{{ form.first_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Фамилия</div>
+                                    <input type="text"
+                                        class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" 
+                                        id="id_last_name"
+                                        name="last_name" 
+                                        value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}">
+                                    {% if form.last_name.errors %}
+                                        <div class="invalid-feedback">{{ form.last_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                    <div class="field-label">Телефон<sup>*</sup></div>
+                                    <input type="text"
+                                        class="form-control {% if form.phone.errors %}is-invalid{% endif %}" 
+                                        id="id_phone"
+                                        name="phone" 
+                                        value="{% if form.phone.value %}{{ form.phone.value }}{% endif %}"
+                                        required>
+                                    {% if form.phone.errors %}
+                                        <div class="invalid-feedback">{{ form.phone.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="check-box">
+                                        <input type="checkbox" 
+                                            name="requires" 
+                                            id="id_requires" 
+                                            value="1"
+                                            {% if form.requires.value == '1' %}checked{% endif %}> &ensp;
+                                        <label for="id_requires">Требуется доставка?</label>
+                                    </div>
+                                    {% if form.requires.errors %}
+                                        <div class="invalid-feedback d-block">{{ form.requires.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!--Form Group-->
+                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                    <div class="field-label">Адрес</div>
+                                    <input type="text" 
+                                        class="form-control {% if form.address.errors %}is-invalid{% endif %}"
+                                        name="address" 
+                                        id="id_address"
+                                        value="{% if form.address.value %}{{ form.address.value }}{% endif %}"
+                                        placeholder="Адрес">
+                                    {% if form.address.errors %}
+                                        <div class="invalid-feedback">{{ form.address.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Способ оплаты: </label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input {% if form.pay.errors %}is-invalid{% endif %}" 
+                                            type="radio" 
+                                            name="pay"
+                                            id="id_pay_0" 
+                                            value="0" 
+                                            {% if form.pay.value == '0' %}checked{% endif %}>
+                                        <label class="form-check-label" for="id_pay_0">Оплата картой</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input {% if form.pay.errors %}is-invalid{% endif %}" 
+                                            type="radio" 
+                                            name="pay"
+                                            id="id_pay_1" 
+                                            value="1"
+                                            {% if form.pay.value == '1' %}checked{% endif %}>
+                                        <label class="form-check-label" for="id_pay_1">Наличными при получении</label>
+                                    </div>
+                                    {% if form.pay.errors %}
+                                        <div class="invalid-feedback d-block">{{ form.pay.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!--Column-->
+                    </div>
+                    <button type="submit" class="btn btn-primary">Оформить заказ</button>
+                </form>
+    
+
                 <form action='' method='post'>
                     {% csrf_token %}
                     <div class="row clearfix">
@@ -50,7 +260,7 @@
                                 <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="check-box">
                                         <input type="checkbox" name="shipping-option" id="account-option_1"> &ensp;
-                                        <label for="account-option_1">Самовывоз?</label>
+                                        <label for="account-option_1">Требуется доставка?</label>
                                     </div>
                                 </div>
 
@@ -81,9 +291,8 @@
                         <!--Column-->
                     </div>
                 </form>
+                {% endcomment %}
             </div>
-
-            <!--Order Box-->
             <div class="order-box">
                 <div class="btc_shop_single_prod_right_section related_pdt_shop_head checkout_heading">
                     <h1>your order </h1>
@@ -92,65 +301,25 @@
                     <div class="col">PRODUCT</div>
                     <div class="col">TOTAL</div>
                 </div>
+                {% user_cart request as carts %}
                 <ul>
-                    <li class="clearfix"><strong>Patient Ninja 1</strong><span>$35.00</span></li>
-                    <li class="clearfix">Sub Total<span>$35.00</span></li>
-                    <li class="clearfix">Shipping<span class="free">Free Shipping</span></li>
-                    <li class="clearfix">TOTAL<span>$35.00</span></li>
+                    {% for cart in carts %}
+                        <li class="clearfix">
+                            <strong>{{ cart.product.name }}</strong>
+                            <span>${{ cart.product_price }} - {{ cart.quantity }}</span>
+                        </li>
+                    {% endfor %}
+                    <li class="clearfix">TOTAL<span>${{ carts.total_price }}</span></li>
                 </ul>
             </div>
-            <!--End Order Box-->
-
-            <!--Payment Box-->
-            <div class="payment-box">
-                <div class="upper-box">
-
-                    <!--Payment Options-->
-                    <div class="payment-options">
-                        <ul>
-                            <li>
-                                <div class="radio-option">
-                                    <input type="radio" name="payment-group" id="payment-2" checked>
-                                    <label for="payment-2"><strong>Direct Bank Transfer</strong><span class="small-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="radio-option">
-                                    <input type="radio" name="payment-group" id="payment-1">
-                                    <label for="payment-1"><strong>Check Payments</strong><span class="small-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span></label>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="radio-option">
-                                    <input type="radio" name="payment-group" id="payment-3">
-                                    <label for="payment-3"><strong>Cash on Delivery</strong><span class="small-text">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="radio-option">
-                                    <input type="radio" name="payment-group" id="payment-4">
-                                    <label for="payment-4"><strong>PayPal</strong><span class="image"><img src="images/content/paypal.jpg" alt="" /></span></label>
-                                    <a href="#" class="what-paypall">What is PayPal?</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="lower-box text-right">
-                    <div class="shop_btn_wrapper checkout_btn">
-                        <ul>
-                            <li><a href="#">place order</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!--End Payment Box-->
-
         </div>
-
     </div>
 
+
+<script>
+// Показываем обязательность адреса при выборе доставки
+document.getElementById('id_requires_delivery').addEventListener('change', function() {
+    document.getElementById('address-required').style.display = this.checked ? 'inline' : 'none';
+});
+</script>
 {% endblock content %}
