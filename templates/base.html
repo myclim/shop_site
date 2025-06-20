@@ -56,10 +56,14 @@
 			<ul>
 				<li>
 					<div class="ss_search_box">
-
-						<input type="text" placeholder="Search for products">
-						<button><i class="fa fa-search" aria-hidden="true"></i></button>
-					</span>
+						<form action="{% url 'shop:search' %}" method="get">
+							<input
+								type="text" 
+								name="q"
+								placeholder='Поиск'
+								value="{{ request.GET.q }}">
+							<button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+						</form>
 					</div>
 				</li>
 				{% if user.is_authenticated %}

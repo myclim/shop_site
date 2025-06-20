@@ -1,5 +1,7 @@
 from django.views.generic import DetailView, ListView
+
 from shop.models import ProductModel
+from shop.utils import search_products
 
 
 
@@ -9,10 +11,16 @@ class ProductListView(ListView):
     template_name = 'shop/shop_list.html'
     context_object_name = 'products'
     paginate_by = 9
-
+    
     def get_queryset(self):
-        queryset = super().get_queryset() 
+        queryset = super().get_queryset()
+        search_text = self.request.GET.get('q', '')
         sub_list = self.request.GET.getlist('subcategories')
+
+        if search_text:
+            queryset = search_products(search_text)
+            return queryset
+
         if sub_list:
             queryset = ProductModel.objects.filter(category__id__in=sub_list)
         return queryset

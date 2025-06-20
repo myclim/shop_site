@@ -3,7 +3,6 @@ from carts.models import CartModel
 
 
 
-
 register = template.Library()
 
 
