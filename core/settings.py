@@ -41,11 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
 
+    'rest_framework',
+
     'main',
     'shop',
     'user',
     'carts',
     'order',
+    'api'
 ]
 
 MIDDLEWARE = [
