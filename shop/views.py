@@ -1,4 +1,5 @@
 from django.views.generic import DetailView, ListView
+from django.core.cache import cache
 
 from shop.models import ProductModel
 from shop.utils import search_products
@@ -27,8 +28,13 @@ class ProductListView(ListView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        top_product = cache.get('top_product')
+        if not top_product:
+            top_product = ProductModel.objects.order_by('-discount').first()
+            cache.set('top_product', top_product, 15 * 60)
+
         context["title"] = 'Blog - page'
-        context['top_product'] = ProductModel.objects.order_by('-discount').first()
+        context['top_product'] = top_product
         return context
 
 

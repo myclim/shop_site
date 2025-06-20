@@ -67,7 +67,7 @@
 						<div class="ss_proadd_wrapper ss_proadd_wrapper_inner">
                             <div class="ss_proadd_box">
                                 <h2>{{ top_product.name|default:"Premium Product" }}</h2>
-                                <p>Starting ${{ top_product.price }}/</p>
+                                <p>Starting ${{ top_product.sell_price }}/</p>
                                 <img src="{% if top_product.images.all %}{{ top_product.images.first.image.url }}{% else %}{% static 'images/content/Mockup1.png' %}{% endif %}" 
                                     alt="{{ top_product.name }}" 
                                     title="{{ top_product.name }}" 

@@ -34,6 +34,8 @@ local_settings.py
 .env.local
 .venv
 instance/
+django_cache/
+
 
 # --- Django ---
 *.egg-info/
@@ -42,6 +44,7 @@ instance/
 MANIFEST
 celerybeat-schedule
 celerybeat.pid
+var/
 
 # --- IDE (VS Code) ---
 .vscode/
